@@ -35,13 +35,13 @@ yarn-error.log*
 # env files (NEVER commit these)
 .env
 .env.*
-.env.example
+!.env.example  # Allow .env.example as template
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
 backend/.env
-!backend/.env.example
+!backend/.env.example  # Allow backend .env.example as template
 
 # vercel
 .vercel
