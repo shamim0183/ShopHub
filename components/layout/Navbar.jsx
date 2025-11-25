@@ -4,7 +4,7 @@ import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FiChevronDown, FiLogOut, FiMenu, FiPackage, FiPlusCircle, FiShoppingCart, FiX } from 'react-icons/fi';
+import { FiChevronDown, FiLogOut, FiMenu, FiPackage, FiPlusCircle, FiX } from 'react-icons/fi';
 
 export default function Navbar() {
   const { data: session, status } = useSession();
@@ -12,6 +12,7 @@ export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [theme, setTheme] = useState('light');
 
   const navLinks = [
     { path: '/home', label: 'Home' },
@@ -28,21 +29,78 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
- 
+  // Theme management
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    setTheme(savedTheme);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
+  };
 
   const handleLogout = () => {
     signOut({ callbackUrl: '/' });
   };
 
   return (
-    <nav className={`sticky top-0 z-50 bg-base-100 border-b border-base-300 transition-all duration-300 py-6 ${
+    <nav className={`sticky top-0 z-50 bg-base-100 border-b border-base-300 transition-all duration-300 py-4 ${
       isScrolled ? 'shadow-lg' : ''
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <Link href="/home" className="flex items-center gap-2 text-xl font-bold hover:scale-105 transition-transform">
-            <FiShoppingCart className="text-2xl bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-transparent bg-clip-text" />
-            <span className="bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-transparent bg-clip-text">ShopHub</span>
+          <Link href="/home" className="flex items-center gap-3 hover:scale-105 transition-transform group">
+            {/* Custom Logo SVG */}
+            <div className="relative">
+              <svg 
+                width="48" 
+                height="48" 
+                viewBox="0 0 48 48" 
+                fill="none" 
+                xmlns="http://www.w3.org/2000/svg"
+                className="drop-shadow-lg"
+              >
+                {/* Shopping Bag */}
+                <path 
+                  d="M12 14L10 42H38L36 14H12Z" 
+                  fill="url(#gradient1)" 
+                  stroke="url(#gradient1)" 
+                  strokeWidth="2"
+                />
+                {/* Bag Handle */}
+                <path 
+                  d="M16 14V10C16 6.68629 18.6863 4 22 4H26C29.3137 4 32 6.68629 32 10V14" 
+                  stroke="url(#gradient1)" 
+                  strokeWidth="2.5" 
+                  strokeLinecap="round"
+                />
+                {/* Hub/Star Icon */}
+                <circle cx="24" cy="26" r="6" fill="white" opacity="0.9"/>
+                <path 
+                  d="M24 23L25 25.5L27.5 26L25 27L24 29.5L23 27L20.5 26L23 25.5L24 23Z" 
+                  fill="url(#gradient1)"
+                />
+                
+                <defs>
+                  <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#ee0979" />
+                    <stop offset="100%" stopColor="#ff6a00" />
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            
+            {/* Brand Text */}
+            <div className="flex flex-col">
+              <span className="text-3xl font-black bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-transparent bg-clip-text leading-none">
+                ShopHub
+              </span>
+              <span className="text-xs opacity-60 font-medium tracking-wider">YOUR SHOPPING DESTINATION</span>
+            </div>
           </Link>
 
           <div className="hidden md:flex items-center gap-3">
@@ -66,7 +124,12 @@ export default function Navbar() {
 
           <div className="flex items-center gap-3">
             <label className="toggle text-base-content">
-  <input type="checkbox" value="synthwave" className="theme-controller" />
+              <input 
+                type="checkbox" 
+                className="theme-controller" 
+                checked={theme === 'dark'}
+                onChange={toggleTheme}
+              />
 
               <svg aria-label="sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></g></svg>
 

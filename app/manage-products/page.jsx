@@ -2,10 +2,13 @@
 
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
+import EmptyState from '@/components/ui/EmptyState';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import PageHeader from '@/components/ui/PageHeader';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { FiEdit2, FiEye, FiPlus, FiTrash2 } from 'react-icons/fi';
+import { FiEdit2, FiEye, FiPackage, FiPlus, FiTrash2 } from 'react-icons/fi';
 import Swal from 'sweetalert2';
 
 export default function ManageProductsPage() {
@@ -67,99 +70,98 @@ export default function ManageProductsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-base-200">
       <Navbar />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Page Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-          <div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">Manage Products</h1>
-            <p className="text-white dark:text-gray-300 mt-1">View and manage all products in the store</p>
-          </div>
-          <button
-            onClick={() => router.push('/add-product')}
-            className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all"
-          >
-            <FiPlus />
-            <span>Add New Product</span>
-          </button>
-        </div>
+        <PageHeader
+          title="Manage Products"
+          subtitle="View and manage all products in the store"
+          action={
+            <button
+              onClick={() => router.push('/add-product')}
+              className="btn btn-primary gap-2"
+            >
+              <FiPlus />
+              <span>Add New Product</span>
+            </button>
+          }
+        />
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="animate-spin rounded-full h-12 w-12 border-4 border-[#ee0979] border-t-transparent"></div>
-            <p className="text-gray-600 dark:text-gray-400">Loading products...</p>
-          </div>
+          <LoadingSpinner message="Loading products..." />
         ) : products.length > 0 ? (
           <>
             {/* Desktop Table View */}
-            <div className="hidden lg:block bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-              <table className="w-full">
-                <thead className="bg-gray-100 dark:bg-gray-700">
+            <div className="hidden lg:block overflow-x-auto bg-base-100 rounded-xl shadow-lg border border-base-300">
+              <table className="table table-zebra">
+                <thead>
                   <tr>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Image</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Title</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Category</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Price</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Stock</th>
-                    <th className="px-6 py-4 text-left text-sm font-semibold text-gray-900 dark:text-white">Actions</th>
+                    <th className="font-bold">Image</th>
+                    <th className="font-bold">Title</th>
+                    <th className="font-bold">Category</th>
+                    <th className="font-bold">Price</th>
+                    <th className="font-bold">Stock</th>
+                    <th className="font-bold">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                <tbody>
                   {products.map((product) => (
-                    <tr key={product._id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50 transition-colors">
-                      <td className="px-6 py-4">
-                        <img
-                          src={product.imageUrl || 'https://via.placeholder.com/60'}
-                          alt={product.title}
-                          className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-600"
-                          onError={(e) => {
-                            e.target.src = 'https://via.placeholder.com/60x60?text=No+Image';
-                          }}
-                        />
+                    <tr key={product._id} className="hover">
+                      <td>
+                        <div className="avatar">
+                          <div className="mask mask-squircle w-16 h-16">
+                            <img
+                              src={product.imageUrl || 'https://via.placeholder.com/60'}
+                              alt={product.title}
+                              onError={(e) => {
+                                e.target.src = 'https://via.placeholder.com/60x60?text=No+Image';
+                              }}
+                            />
+                          </div>
+                        </div>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="font-semibold text-gray-900 dark:text-white line-clamp-2">
+                      <td>
+                        <span className="font-semibold line-clamp-2">
                           {product.title}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="inline-block px-3 py-1 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white text-xs font-semibold rounded-full">
+                      <td>
+                        <span className="badge badge-primary badge-outline">
                           {product.category}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
-                        <span className="font-bold text-[#ee0979] text-lg">
+                      <td>
+                        <span className="font-bold text-primary text-lg">
                           ${product.price.toFixed(2)}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td>
                         <span className={`font-semibold ${
-                          product.stock > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                          product.stock > 0 ? 'text-success' : 'text-error'
                         }`}>
                           {product.stock}
                         </span>
                       </td>
-                      <td className="px-6 py-4">
+                      <td>
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => router.push(`/products/${product._id}`)}
-                            className="p-2 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors"
+                            className="btn btn-ghost btn-sm btn-circle"
                             title="View Details"
                           >
                             <FiEye size={18} />
                           </button>
                           <button
                             onClick={() => router.push(`/products/${product._id}`)}
-                            className="p-2 text-[#ee0979] hover:bg-pink-50 dark:hover:bg-pink-900/20 rounded-lg transition-colors"
+                            className="btn btn-ghost btn-sm btn-circle text-primary"
                             title="Edit Product"
                           >
                             <FiEdit2 size={18} />
                           </button>
                           <button
                             onClick={() => handleDelete(product._id, product.title)}
-                            className="p-2 text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                            className="btn btn-ghost btn-sm btn-circle text-error"
                             title="Delete Product"
                           >
                             <FiTrash2 size={18} />
@@ -175,74 +177,81 @@ export default function ManageProductsPage() {
             {/* Mobile Card View */}
             <div className="lg:hidden space-y-4">
               {products.map((product) => (
-                <div key={product._id} className="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-200 dark:border-gray-700 shadow-sm">
-                  <div className="flex gap-4">
-                    <img
-                      src={product.imageUrl || 'https://via.placeholder.com/100'}
-                      alt={product.title}
-                      className="w-24 h-24 rounded-lg object-cover flex-shrink-0 border border-gray-200 dark:border-gray-600"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/100x100?text=No+Image';
-                      }}
-                    />
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-bold text-gray-900 dark:text-white line-clamp-2 mb-2">
-                        {product.title}
-                      </h3>
-                      <span className="inline-block px-3 py-1 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white text-xs font-semibold rounded-full mb-2">
-                        {product.category}
-                      </span>
-                      <div className="flex items-center justify-between">
-                        <span className="font-bold text-[#ee0979] text-xl">
-                          ${product.price.toFixed(2)}
+                <div key={product._id} className="card bg-base-100 shadow-sm border border-base-300">
+                  <div className="card-body">
+                    <div className="flex gap-4">
+                      <div className="avatar">
+                        <div className="mask mask-squircle w-24 h-24">
+                          <img
+                            src={product.imageUrl || 'https://via.placeholder.com/100'}
+                            alt={product.title}
+                            onError={(e) => {
+                              e.target.src = 'https://via.placeholder.com/100x100?text=No+Image';
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold line-clamp-2 mb-2">
+                          {product.title}
+                        </h3>
+                        <span className="badge badge-primary badge-outline mb-2">
+                          {product.category}
                         </span>
-                        <span className={`text-sm font-semibold ${
-                          product.stock > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                        }`}>
-                          Stock: {product.stock}
-                        </span>
+                        <div className="flex items-center justify-between">
+                          <span className="font-bold text-primary text-xl">
+                            ${product.price.toFixed(2)}
+                          </span>
+                          <span className={`text-sm font-semibold ${
+                            product.stock > 0 ? 'text-success' : 'text-error'
+                          }`}>
+                            Stock: {product.stock}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className="flex gap-2 mt-4">
-                    <button
-                      onClick={() => router.push(`/products/${product._id}`)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white font-semibold rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
-                    >
-                      <FiEye size={16} />
-                      <span>View</span>
-                    </button>
-                    <button
-                      onClick={() => router.push(`/products/${product._id}`)}
-                      className="flex-1 flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-semibold rounded-lg hover:shadow-lg transition-all"
-                    >
-                      <FiEdit2 size={16} />
-                      <span>Edit</span>
-                    </button>
-                    <button
-                      onClick={() => handleDelete(product._id, product.title)}
-                      className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
-                    >
-                      <FiTrash2 size={16} />
-                    </button>
+                    <div className="card-actions justify-end mt-4">
+                      <button
+                        onClick={() => router.push(`/products/${product._id}`)}
+                        className="btn btn-outline btn-sm gap-2"
+                      >
+                        <FiEye size={16} />
+                        <span>View</span>
+                      </button>
+                      <button
+                        onClick={() => router.push(`/products/${product._id}`)}
+                        className="btn btn-primary btn-sm gap-2"
+                      >
+                        <FiEdit2 size={16} />
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        onClick={() => handleDelete(product._id, product.title)}
+                        className="btn btn-error btn-sm"
+                      >
+                        <FiTrash2 size={16} />
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
             </div>
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700">
-            <div className="text-6xl mb-4 opacity-50">📦</div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">No Products Found</h3>
-            <p className="text-white dark:text-gray-300 mb-6">Start by adding your first product!</p>
-            <button
-              onClick={() => router.push('/add-product')}
-              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-semibold rounded-lg hover:shadow-lg hover:scale-105 transition-all"
-            >
-              <FiPlus />
-              <span>Add Product</span>
-            </button>
-          </div>
+          <EmptyState
+            icon={FiPackage}
+            title="No Products Found"
+            description="Start by adding your first product!"
+            action={
+              <button
+                onClick={() => router.push('/add-product')}
+                className="btn btn-primary gap-2"
+              >
+                <FiPlus />
+                <span>Add Product</span>
+              </button>
+            }
+          />
         )}
       </main>
 

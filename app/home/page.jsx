@@ -82,26 +82,37 @@ export default function HomePage() {
     },
   ];
 
-  const brands = ["Apple", "Samsung", "Nike", "Adidas", "Sony", "LG", "Dell", "HP", "Canon", "Nikon"];
+  const brands = [
+    { name: "Apple", logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" },
+    { name: "Samsung", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b4/Samsung_wordmark.svg" },
+    { name: "Nike", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg" },
+    { name: "Adidas", logo: "https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg" },
+    { name: "Sony", logo: "https://upload.wikimedia.org/wikipedia/commons/c/ca/Sony_logo.svg" },
+    { name: "LG", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LG_logo_%282014%29.svg/1280px-LG_logo_%282014%29.svg.png" },
+    { name: "Dell", logo: "https://upload.wikimedia.org/wikipedia/commons/4/48/Dell_Logo.svg" },
+    { name: "HP", logo: "https://upload.wikimedia.org/wikipedia/commons/a/ad/HP_logo_2012.svg" },
+    { name: "Canon", logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Canon_wordmark.svg/2560px-Canon_wordmark.svg.png" },
+    { name: "Nikon", logo: "https://images.all-free-download.com/images/graphiclarge/nikon_logo_30023.jpg" },
+  ];
 
   const testimonials = [
     {
       name: "Sarah Johnson",
       role: "Verified Buyer",
       rating: 5,
-      text: "Amazing products and fast shipping! Highly recommend this store.",
+      comment: "Amazing products and fast delivery! Will definitely shop again.",
     },
     {
-      name: "Mike Chen",
-      role: "Verified Buyer",
+      name: "Michael Chen",
+      role: "Regular Customer",
       rating: 5,
-      text: "Best online shopping experience. Great prices and customer service.",
+      comment: "Great customer service and quality products. Highly recommended!",
     },
     {
       name: "Emma Davis",
-      role: "Verified Buyer",
+      role: "Happy Shopper",
       rating: 5,
-      text: "Love the variety of products. Always find what I need!",
+      comment: "Love the variety and prices. My go-to online store!",
     },
   ];
 
@@ -110,42 +121,37 @@ export default function HomePage() {
       <Navbar />
 
       <main>
-        {/* Hero Swiper Section */}
-        <section className="hero">
-          <div className="hero-content w-full">
-            <Swiper
-              modules={[Autoplay, Pagination, Navigation, EffectFade]}
-              spaceBetween={0}
-              slidesPerView={1}
-              loop={true}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              navigation={true}
-              effect="fade"
-              className="w-full h-96 md:h-[28rem]"
-            >
-              {heroSlides.map((slide, index) => (
-                <SwiperSlide key={index}>
-                  <div className="relative w-full h-full rounded-box overflow-hidden">
-                    {/* Background Image */}
-                    <div
-                      className="absolute inset-0 bg-cover bg-center opacity-80"
-                      style={{ backgroundImage: `url(${slide.imageUrl})` }}
-                    />
-                    {/* Overlay */}
-                    <div className="absolute inset-0 bg-black/30" />
-                    {/* Content */}
-                    <div className="relative z-10 flex items-center justify-center h-full">
-                      <div className="text-center max-w-3xl px-6">
-                        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white drop-shadow">
+        {/* Hero Section with Swiper */}
+        <section className="relative bg-base-100">
+          <Swiper
+            modules={[Autoplay, EffectFade, Pagination, Navigation]}
+            effect="fade"
+            autoplay={{ delay: 5000, disableOnInteraction: false }}
+            pagination={{ clickable: true }}
+            navigation
+            loop
+            className="h-[500px] md:h-[600px]"
+          >
+            {heroSlides.map((slide, index) => (
+              <SwiperSlide key={index}>
+                <div className="relative w-full h-full">
+                  <div
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${slide.imageUrl})` }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
+                  <div className="relative h-full flex items-center">
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                      <div className="max-w-2xl text-white">
+                        <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
                           {slide.title}
                         </h1>
-                        <p className="text-lg md:text-xl mb-6 text-neutral-content opacity-95">
+                        <p className="text-xl md:text-2xl mb-8 opacity-95 drop-shadow-md">
                           {slide.subtitle}
                         </p>
                         <Link
                           href={slide.link}
-                          className="btn btn-primary btn-lg gap-2 inline-flex items-center"
+                          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
                         >
                           {slide.cta}
                           <FiArrowRight />
@@ -153,23 +159,29 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </section>
 
         {/* Brands Marquee */}
-        <section className="py-8 bg-base-100 border-t border-b">
+        <section className="py-12 bg-base-100 border-t border-b border-base-300">
           <div className="container mx-auto px-4">
-            <h2 className="text-center font-medium text-lg mb-4">Trusted By Leading Brands</h2>
-            <Marquee gradient={false} speed={50}>
+            <h2 className="text-center font-semibold text-xl mb-8 opacity-80">Trusted By Leading Brands</h2>
+            <Marquee gradient={false} speed={40}>
               {brands.map((brand, index) => (
                 <div
                   key={index}
-                  className="mx-6 px-6 py-3 bg-base-200 rounded-lg shadow-sm flex items-center justify-center"
+                  className="mx-8 px-8 py-6 bg-base-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
+                  style={{ minWidth: '150px', height: '80px' }}
                 >
-                  <span className="font-bold text-lg">{brand}</span>
+                  <img 
+                    src={brand.logo} 
+                    alt={brand.name}
+                    className="max-w-full max-h-full object-contain"
+                    style={{ filter: 'brightness(0.8)' }}
+                  />
                 </div>
               ))}
             </Marquee>
@@ -222,36 +234,36 @@ export default function HomePage() {
                 {featuredProducts.map((product) => (
                   <div
                     key={product._id}
-                    className="card card-compact bg-base-100 shadow hover:shadow-lg transition-shadow"
+                    className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300"
                   >
                     <Link href={`/products/${product._id}`}>
-                      <figure className="h-56 bg-neutral/10">
+                      <figure className="h-56 bg-base-200 overflow-hidden">
                         <img
                           src={product.imageUrl || product.image || "https://via.placeholder.com/400"}
                           alt={product.title || product.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
                         />
                       </figure>
                     </Link>
                     <div className="card-body">
                       <div className="flex justify-between items-start">
                         <Link href={`/products/${product._id}`}>
-                          <h3 className="card-title line-clamp-1 hover:text-primary transition-colors cursor-pointer">
+                          <h3 className="card-title text-base-content line-clamp-1 hover:text-primary transition-colors cursor-pointer font-bold">
                             {product.title || product.name}
                           </h3>
                         </Link>
-                        <div className="badge badge-primary">${product.price}</div>
+                        <div className="badge badge-primary badge-lg font-bold">${product.price}</div>
                       </div>
-                      <p className="text-sm opacity-80 line-clamp-2">
+                      <p className="text-sm opacity-70 line-clamp-2 mb-2">
                         {product.shortDescription || product.description || "No description available."}
                       </p>
                       <div className="card-actions justify-between items-center mt-4">
-                        <div className="flex items-center gap-1 text-yellow-400">
+                        <div className="flex items-center gap-1 text-warning">
                           {[...Array(5)].map((_, i) => (
-                            <FiStar key={i} />
+                            <FiStar key={i} className="fill-warning" />
                           ))}
                         </div>
-                        <Link href={`/products/${product._id}`} className="btn btn-outline btn-sm">
+                        <Link href={`/products/${product._id}`} className="btn btn-primary btn-sm font-semibold">
                           View
                         </Link>
                       </div>
