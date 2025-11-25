@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import ContactInfoCard from '@/components/ui/ContactInfoCard';
 import HeroSection from '@/components/ui/HeroSection';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { useState } from 'react';
 import { FiMail, FiMapPin, FiPhone, FiSend } from 'react-icons/fi';
 import Swal from 'sweetalert2';
@@ -237,9 +238,9 @@ export default function ContactPage() {
                 >
                   <h3 className="text-2xl font-bold mb-3">Need Quick Answers?</h3>
                   <p className="mb-4 opacity-90">Check out our FAQ section for instant help</p>
-                  <a href="/faq" className="btn bg-white text-primary hover:bg-base-100 border-none">
+                  <Link href="/faq" className="btn bg-white text-primary hover:bg-base-100 border-none">
                     Visit FAQ
-                  </a>
+                  </Link>
                 </motion.div>
               </motion.div>
             </div>
