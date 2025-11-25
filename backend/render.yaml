@@ -12,7 +12,8 @@ services:
     env: node
     region: oregon
     plan: free
-    branch: main
+    branch: master  # Changed from 'main' to match your Git branch
+    rootDir: backend  # Specify backend subdirectory
     buildCommand: npm install
     startCommand: npm start
     healthCheckPath: /api/health
@@ -27,7 +28,7 @@ services:
         sync: false  # Set manually in Render dashboard
       
       - key: PORT
-        value: 5000
+        value: 10000  # Render uses port 10000 by default
       
       - key: FRONTEND_URL
-        sync: false  # Set to your Vercel/Netlify URL
+        sync: false  # Set to your Vercel URL
