@@ -41,7 +41,7 @@ export default function AboutPage() {
   ];
 
   const team = [
-    { name: 'Md Shamim Hossain', role: 'CEO & Founder', image: 'https://i.ibb.co.com/FbSYhXxX/kuakata.jpg' },
+    { name: 'Md Shamim Hossain', role: 'CEO & Founder', image: 'https://i.ibb.co.com/MxsMyJzH/01838326265.jpg' },
     { name: 'Michael Chen', role: 'CTO', image: 'https://i.pravatar.cc/150?img=13' },
     { name: 'Emma Davis', role: 'Head of Marketing', image: 'https://i.pravatar.cc/150?img=5' },
     { name: 'James Wilson', role: 'Product Manager', image: 'https://i.pravatar.cc/150?img=12' },
