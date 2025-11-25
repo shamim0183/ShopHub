@@ -1,18 +1,15 @@
 "use client";
 
+import BrandsSection from "@/components/home/BrandsSection";
+import FeaturesSection from "@/components/home/FeaturesSection";
+import HeroSlider from "@/components/home/HeroSlider";
+import TestimonialsSection from "@/components/home/TestimonialsSection";
 import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import Marquee from "react-fast-marquee";
 import { FiArrowRight, FiHeadphones, FiShield, FiShoppingBag, FiStar, FiTruck, FiZap } from "react-icons/fi";
-import "swiper/css";
-import "swiper/css/effect-fade";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import { Autoplay, EffectFade, Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 export default function HomePage() {
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -38,48 +35,29 @@ export default function HomePage() {
       subtitle: "Discover trending styles with up to 50% off",
       cta: "Shop Now",
       link: "/products",
-      imageUrl:
-        "https://images.unsplash.com/photo-1747566500433-97d8bee6e6bb?w=1400&auto=format&fit=crop&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1747566500433-97d8bee6e6bb?w=1400&auto=format&fit=crop&q=80",
     },
     {
       title: "Electronics Sale",
       subtitle: "Latest tech gadgets at unbeatable prices",
       cta: "Explore Deals",
       link: "/products?category=Electronics",
-      imageUrl:
-        "https://images.unsplash.com/photo-1732900309946-7efe975d6ae1?w=1400&auto=format&fit=crop&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1732900309946-7efe975d6ae1?w=1400&auto=format&fit=crop&q=80",
     },
     {
       title: "Free Shipping",
       subtitle: "On all orders over $50 - Limited time offer",
       cta: "Learn More",
       link: "/about",
-      imageUrl:
-        "https://images.unsplash.com/photo-1584824388178-1defc3484ce3?w=1400&auto=format&fit=crop&q=80",
+      imageUrl: "https://images.unsplash.com/photo-1584824388178-1defc3484ce3?w=1400&auto=format&fit=crop&q=80",
     },
   ];
 
   const features = [
-    {
-      icon: FiTruck,
-      title: "Free Shipping",
-      description: "Free delivery on orders over $50",
-    },
-    {
-      icon: FiShield,
-      title: "Secure Payment",
-      description: "100% secure transactions",
-    },
-    {
-      icon: FiZap,
-      title: "Fast Delivery",
-      description: "Quick processing and shipping",
-    },
-    {
-      icon: FiHeadphones,
-      title: "24/7 Support",
-      description: "Always here to help you",
-    },
+    { icon: FiTruck, title: "Free Shipping", description: "Free delivery on orders over $50" },
+    { icon: FiShield, title: "Secure Payment", description: "100% secure transactions" },
+    { icon: FiZap, title: "Fast Delivery", description: "Quick processing and shipping" },
+    { icon: FiHeadphones, title: "24/7 Support", description: "Always here to help you" },
   ];
 
   const brands = [
@@ -96,122 +74,23 @@ export default function HomePage() {
   ];
 
   const testimonials = [
-    {
-      name: "Sarah Johnson",
-      role: "Verified Buyer",
-      rating: 5,
-      comment: "Amazing products and fast delivery! Will definitely shop again.",
-    },
-    {
-      name: "Michael Chen",
-      role: "Regular Customer",
-      rating: 5,
-      comment: "Great customer service and quality products. Highly recommended!",
-    },
-    {
-      name: "Emma Davis",
-      role: "Happy Shopper",
-      rating: 5,
-      comment: "Love the variety and prices. My go-to online store!",
-    },
+    { name: "Sarah Johnson", role: "Verified Buyer", rating: 5, comment: "Amazing products and fast delivery! Will definitely shop again." },
+    { name: "Michael Chen", role: "Regular Customer", rating: 5, comment: "Great customer service and quality products. Highly recommended!" },
+    { name: "Emma Davis", role: "Happy Shopper", rating: 5, comment: "Love the variety and prices. My go-to online store!" },
   ];
 
   return (
     <div className="min-h-screen bg-base-200 text-base-content">
       <Navbar />
-
       <main>
-        {/* Hero Section with Swiper */}
-        <section className="relative bg-base-100">
-          <Swiper
-            modules={[Autoplay, EffectFade, Pagination, Navigation]}
-            effect="fade"
-            autoplay={{ delay: 5000, disableOnInteraction: false }}
-            pagination={{ clickable: true }}
-            navigation
-            loop
-            className="h-[500px] md:h-[600px]"
-          >
-            {heroSlides.map((slide, index) => (
-              <SwiperSlide key={index}>
-                <div className="relative w-full h-full">
-                  <div
-                    className="absolute inset-0 bg-cover bg-center"
-                    style={{ backgroundImage: `url(${slide.imageUrl})` }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 to-black/40" />
-                  <div className="relative h-full flex items-center">
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                      <div className="max-w-2xl text-white">
-                        <h1 className="text-4xl md:text-6xl font-bold mb-4 drop-shadow-lg">
-                          {slide.title}
-                        </h1>
-                        <p className="text-xl md:text-2xl mb-8 opacity-95 drop-shadow-md">
-                          {slide.subtitle}
-                        </p>
-                        <Link
-                          href={slide.link}
-                          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-semibold rounded-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                        >
-                          {slide.cta}
-                          <FiArrowRight />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </section>
-
-        {/* Brands Marquee */}
-        <section className="py-12 bg-base-100 border-t border-b border-base-300">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center font-semibold text-xl mb-8 opacity-80">Trusted By Leading Brands</h2>
-            <Marquee gradient={false} speed={40}>
-              {brands.map((brand, index) => (
-                <div
-                  key={index}
-                  className="mx-8 px-8 py-6 bg-base-200 rounded-xl shadow-sm hover:shadow-md transition-shadow flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300"
-                  style={{ minWidth: '150px', height: '80px' }}
-                >
-                  <img 
-                    src={brand.logo} 
-                    alt={brand.name}
-                    className="max-w-full max-h-full object-contain"
-                    style={{ filter: 'brightness(0.8)' }}
-                  />
-                </div>
-              ))}
-            </Marquee>
-          </div>
-        </section>
-
+        {/* Hero Section */}
+        <HeroSlider slides={heroSlides} />
+        
+        {/* Brands Section */}
+        <BrandsSection brands={brands} />
+        
         {/* Features Section */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center text-3xl font-bold mb-8">Why Shop With Us</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <div key={index} className="card bg-base-100 shadow-sm p-6">
-                    <div className="flex items-start gap-4">
-                      <div className="text-primary text-3xl">
-                        <Icon />
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-lg mb-1">{feature.title}</h3>
-                        <p className="text-sm opacity-80">{feature.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
+        <FeaturesSection features={features} />
 
         {/* Featured Products */}
         <section className="py-12 bg-base-100">
@@ -226,16 +105,13 @@ export default function HomePage() {
             {loading ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {[...Array(6)].map((_, i) => (
-                  <div key={i} className="card card-compact bg-base-200 animate-pulse" />
+                  <div key={i} className="card card-compact bg-base-200 animate-pulse h-96" />
                 ))}
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredProducts.map((product) => (
-                  <div
-                    key={product._id}
-                    className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300"
-                  >
+                  <div key={product._id} className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300">
                     <Link href={`/products/${product._id}`}>
                       <figure className="h-56 bg-base-200 overflow-hidden">
                         <img
@@ -275,35 +151,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* Testimonials Marquee */}
-        <section className="py-12">
-          <div className="container mx-auto px-4">
-            <h2 className="text-center text-3xl font-bold mb-8">Customer Reviews</h2>
-            <Marquee gradient={true} speed={40} pauseOnHover={true}>
-              {testimonials.map((t, idx) => (
-                <div key={idx} className="mx-4 w-80">
-                  <div className="card bg-base-100 shadow p-6">
-                    <div className="mb-3 flex gap-1 text-yellow-400">
-                      {[...Array(t.rating)].map((_, i) => (
-                        <FiStar key={i} />
-                      ))}
-                    </div>
-                    <p className="italic mb-4">"{t.text}"</p>
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold">
-                        {t.name.charAt(0)}
-                      </div>
-                      <div>
-                        <div className="font-bold">{t.name}</div>
-                        <div className="text-sm opacity-70">{t.role}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </Marquee>
-          </div>
-        </section>
+        {/* Testimonials Section */}
+        <TestimonialsSection testimonials={testimonials} />
 
         {/* CTA Section */}
         <section className="py-12">
@@ -325,7 +174,6 @@ export default function HomePage() {
           </div>
         </section>
       </main>
-
       <Footer />
     </div>
   );

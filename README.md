@@ -1,128 +1,66 @@
 # ShopHub - Next.js E-commerce Application
 
-A modern, full-stack e-commerce application built with Next.js, featuring authentication, product management, and a beautiful UI powered by DaisyUI.
+A full-stack e-commerce application with authentication, product management, and modern UI.
 
-## 🚀 Features
+🌐 **Live Site:** https://shop-up-neon.vercel.app/
 
-- **Authentication**
-  - Google OAuth integration
-  - Email/Password authentication with NextAuth.js
-  - Protected routes and session management
+## Setup & Installation
 
-- **Product Management**
-  - Browse products with search and category filters
-  - Add, edit, and delete products
-  - Product details with image gallery
-  - Stock management
-
-- **Modern UI/UX**
-  - Responsive design with Tailwind CSS
-  - DaisyUI components for consistent theming
-  - Light/Dark mode toggle
-  - Smooth animations and transitions
-  - Mobile-friendly interface
-
-- **Backend API**
-  - Express.js REST API
-  - MongoDB database with Mongoose
-  - JWT authentication
-  - Image upload support
-
-## 🛠️ Tech Stack
-
-### Frontend
-- **Framework:** Next.js 15
-- **Styling:** Tailwind CSS, DaisyUI
-- **Authentication:** NextAuth.js
-- **State Management:** React Hooks
-- **HTTP Client:** Axios
-- **Icons:** React Icons
-- **Carousel:** Swiper.js
-- **Alerts:** SweetAlert2
-
-### Backend
-- **Runtime:** Node.js
-- **Framework:** Express.js
-- **Database:** MongoDB with Mongoose
-- **Authentication:** JWT, bcrypt
-- **File Upload:** Multer
-- **Validation:** express-validator
-
-
-### 4. Run the Application
-
-**Start Backend Server:**
+### 1. Install Dependencies
 ```bash
-cd backend
-npm start
+npm install
+cd backend && npm install && cd ..
 ```
 
-**Start Frontend (in a new terminal):**
+### 2. Environment Variables
+
+Create `.env.local`:
+```env
+MONGODB_URI=your_mongodb_uri
+NEXTAUTH_SECRET=your_secret
+NEXTAUTH_URL=http://localhost:3000
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
+```
+
+Create `backend/.env`:
+```env
+MONGODB_URI=your_mongodb_uri
+PORT=5000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:3000
+```
+
+### 3. Run Application
 ```bash
+# Terminal 1 - Backend
+cd backend && npm start
+
+# Terminal 2 - Frontend
 npm run dev
 ```
 
-The application will be available at:
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
+Visit `http://localhost:3000`
 
-## 📁 Project Structure
+## Routes
 
-```
-next/
-├── app/                    # Next.js app directory
-│   ├── api/               # API routes
-│   ├── products/          # Product pages
-│   ├── add-product/       # Add product page
-│   ├── manage-products/   # Manage products page
-│   ├── login/             # Login page
-│   ├── register/          # Registration page
-│   └── layout.js          # Root layout
-├── components/            # React components
-│   ├── layout/           # Layout components (Navbar, Footer)
-│   └── products/         # Product components
-├── backend/              # Express.js backend
-│   ├── config/          # Configuration files
-│   ├── controllers/     # Route controllers
-│   ├── middleware/      # Custom middleware
-│   ├── models/          # Mongoose models
-│   ├── routes/          # API routes
-│   └── server.js        # Entry point
-└── public/              # Static assets
-```
+### Frontend Routes
+- `/` - Landing page redirect
+- `/home` - Home page with featured products
+- `/about` - About page
+- `/products` - All products with search/filter
+- `/products/:id` - Product details
+- `/add-product` - Add new product (protected)
+- `/manage-products` - Manage products (protected)
+- `/login` - Login page
+- `/register` - Register page
 
-## 🔑 Key Features Explained
-
-### Authentication Flow
-1. Users can register with email/password or Google OAuth
-2. NextAuth.js handles session management
-3. Protected routes redirect unauthenticated users to login
-4. JWT tokens secure backend API requests
-
-### Product Management
-1. Authenticated users can add products with images
-2. Products support categories, pricing, and stock levels
-3. Search and filter functionality for easy browsing
-4. Admin users can edit and delete products
-
-### Theme System
-- DaisyUI provides light and dark themes
-- Theme preference saved in localStorage
-- Smooth transitions between themes
-- Consistent color palette across the app
-
-## 📝 API Endpoints
-
-### Authentication
-- `POST /api/auth/register` - Register new user
+### API Routes
+- `POST /api/auth/register` - Register user
 - `POST /api/auth/login` - Login user
-- `GET /api/auth/me` - Get current user
-
-### Products
 - `GET /api/products` - Get all products
 - `GET /api/products/:id` - Get product by ID
-- `POST /api/products` - Create product (auth required)
-- `PUT /api/products/:id` - Update product (auth required)
-- `DELETE /api/products/:id` - Delete product (auth required)
-
-
+- `POST /api/products` - Create product
+- `PUT /api/products/:id` - Update product
+- `DELETE /api/products/:id` - Delete product

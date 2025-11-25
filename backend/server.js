@@ -1,56 +1,24 @@
-// ============================================
-// Express Server Configuration
-// ============================================
-// Main server file that sets up Express app,
-// connects to MongoDB, and handles all API routes.
-// This is the entry point for the backend application.
-// ============================================
-
-// Load environment variables from .env file
-// This must be called before using any environment variables
 require('dotenv').config();
 
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
 
-// Import route handlers
 const productRoutes = require('./routes/products');
 const authRoutes = require('./routes/auth');
 
-// ============================================
-// Initialize Express Application
-// ============================================
 const app = express();
-
-// Define server port from environment or use default 5000
 const PORT = process.env.PORT || 5000;
 
-// ============================================
-// Connect to MongoDB Database
-// ============================================
-// This establishes connection to MongoDB Atlas
-// Server won't start if database connection fails
-// ============================================
 connectDB();
 
-// ============================================
-// Middleware Configuration
-// ============================================
-// Middleware processes requests before they reach routes
-// ============================================
-
-// CORS (Cross-Origin Resource Sharing)
-// Allows Next.js frontend to make requests to this backend
-// Supports both development (localhost) and production URLs
 const allowedOrigins = [
-  'http://localhost:3000',  // Next.js dev server
-  process.env.FRONTEND_URL, // Production frontend URL
-].filter(Boolean); // Remove undefined values
+  'http://localhost:3000',
+  process.env.FRONTEND_URL,
+].filter(Boolean);
 
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) !== -1) {
@@ -59,35 +27,19 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   },
-  credentials: true,                 // Allow cookies
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
-// JSON Body Parser
-// Parses incoming requests with JSON payloads
-// Makes request body available as req.body
 app.use(express.json());
-
-// URL-encoded Body Parser
-// Parses URL-encoded form data
 app.use(express.urlencoded({ extended: true }));
 
-// Request Logger (for development debugging)
-// Logs all incoming requests with method, path, and timestamp
 app.use((req, res, next) => {
   console.log(`📨 ${req.method} ${req.path} - ${new Date().toISOString()}`);
-  next();  // Pass control to next middleware
+  next();
 });
 
-// ============================================
-// API Routes
-// ============================================
-// All routes are prefixed with their respective paths
-// ============================================
-
-// Health check endpoint
-// Used to verify server is running
 app.get('/api/health', (req, res) => {
   res.status(200).json({ 
     status: 'OK',
@@ -96,30 +48,9 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// Product routes
-// Mounts all product endpoints at /api/products
-// GET    /api/products      - Get all products
-// GET    /api/products/:id  - Get single product
-// POST   /api/products      - Create product
-// PUT    /api/products/:id  - Update product
-// DELETE /api/products/:id  - Delete product
 app.use('/api/products', productRoutes);
-
-// Authentication routes
-// Mounts all auth endpoints at /api/auth
-// POST   /api/auth/register - Register new user
-// POST   /api/auth/login    - Login user
-// GET    /api/auth/users    - Get all users
-// GET    /api/auth/users/:id - Get user by ID
-// DELETE /api/auth/users/:id - Delete user
 app.use('/api/auth', authRoutes);
 
-// ============================================
-// 404 Handler
-// ============================================
-// Catches all requests that don't match any routes
-// Returns helpful error message
-// ============================================
 app.use((req, res) => {
   res.status(404).json({ 
     message: 'Route not found',
@@ -128,12 +59,6 @@ app.use((req, res) => {
   });
 });
 
-// ============================================
-// Global Error Handler
-// ============================================
-// Catches any errors thrown in routes or middleware
-// Provides consistent error response format
-// ============================================
 app.use((error, req, res, next) => {
   console.error('❌ Server error:', error);
   
@@ -143,11 +68,6 @@ app.use((error, req, res, next) => {
   });
 });
 
-// ============================================
-// Start Server
-// ============================================
-// Listens on specified port and logs success message
-// ============================================
 app.listen(PORT, () => {
   console.log('');
   console.log('🚀 ================================');
@@ -158,11 +78,6 @@ app.listen(PORT, () => {
   console.log('');
 });
 
-// ============================================
-// Graceful Shutdown
-// ============================================
-// Handles cleanup when server is terminated
-// ============================================
 process.on('SIGTERM', () => {
   console.log('🛑 SIGTERM received. Shutting down gracefully...');
   process.exit(0);

@@ -1,5 +1,7 @@
 'use client';
 
+import StatsSection from '@/components/about/StatsSection';
+import TeamSection from '@/components/about/TeamSection';
 import Footer from '@/components/layout/Footer';
 import Navbar from '@/components/layout/Navbar';
 import AnimatedCard from '@/components/ui/AnimatedCard';
@@ -47,23 +49,6 @@ export default function AboutPage() {
     { name: 'James Wilson', role: 'Product Manager', image: 'https://i.pravatar.cc/150?img=12' },
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1 },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: { duration: 0.5 },
-    },
-  };
-
   return (
     <div className="min-h-screen bg-base-200">
       <Navbar />
@@ -76,32 +61,7 @@ export default function AboutPage() {
         />
 
         {/* Stats Section */}
-        <section className="py-16 bg-base-100">
-          <div className="container mx-auto px-4">
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-6"
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                  className="card bg-base-200 shadow-lg p-6 text-center"
-                >
-                  <div className="flex justify-center mb-4">
-                    <stat.icon className="text-5xl text-primary" />
-                  </div>
-                  <div className="text-4xl font-bold mb-2">{stat.value}</div>
-                  <div className="opacity-70">{stat.label}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
+        <StatsSection stats={stats} />
 
         {/* Story Section */}
         <section className="py-20">
@@ -164,43 +124,7 @@ export default function AboutPage() {
         </section>
 
         {/* Team Section */}
-        <section className="py-20">
-          <div className="container mx-auto px-4">
-            <SectionHeader
-              title="Meet Our Team"
-              subtitle="The passionate people behind ShopHub"
-            />
-
-            <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
-            >
-              {team.map((member, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  whileHover={{ scale: 1.05 }}
-                  className="card bg-base-100 shadow-lg overflow-hidden"
-                >
-                  <figure className="px-6 pt-6 pb-1">
-                    <div className="avatar">
-                      <div className="w-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                        <img src={member.image} alt={member.name} />
-                      </div>
-                    </div>
-                  </figure>
-                  <div className="card-body items-center text-center">
-                    <h3 className="card-title">{member.name}</h3>
-                    <p className="opacity-70">{member.role}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
+        <TeamSection team={team} />
 
         {/* CTA Section */}
         <section className="py-20 bg-gradient-to-r from-primary to-secondary text-primary-content">
@@ -232,3 +156,4 @@ export default function AboutPage() {
     </div>
   );
 }
+
