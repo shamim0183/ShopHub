@@ -1,22 +1,7 @@
-// ============================================
-// Database Seeder - Sample Products
-// ============================================
-// This script populates the MongoDB database with
-// sample products across different categories.
-// Run this once to have initial data for testing.
-// Usage: npm run seed (from backend directory)
-// ============================================
-
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
-// ============================================
-// Sample Products Data
-// ============================================
-// 15 products across various categories
-// Each product includes all required fields
-// ============================================
 const sampleProducts = [
   {
     title: 'Wireless Bluetooth Headphones',
@@ -170,32 +155,20 @@ const sampleProducts = [
   }
 ];
 
-// ============================================
-// Seed Database Function
-// ============================================
-// Connects to MongoDB, clears existing products,
-// and inserts sample products
-// ============================================
 const seedDatabase = async () => {
   try {
-    // Connect to MongoDB using connection string from .env
     console.log('🔌 Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
     console.log('✅ Connected to MongoDB');
 
-    // Clear existing products from database
-    // This ensures we start with fresh data
     console.log('🗑️  Clearing existing products...');
     await Product.deleteMany({});
     console.log('✅ Existing products cleared');
 
-    // Insert sample products into database
-    // insertMany is faster than multiple save() calls
     console.log('📦 Inserting sample products...');
     const insertedProducts = await Product.insertMany(sampleProducts);
     console.log(`✅ Successfully inserted ${insertedProducts.length} products`);
 
-    // Print summary by category
     console.log('\n📊 Products by category:');
     const categories = [...new Set(sampleProducts.map(p => p.category))];
     categories.forEach(category => {
@@ -203,20 +176,13 @@ const seedDatabase = async () => {
       console.log(`   ${category}: ${count} products`);
     });
 
-    // Close database connection
     console.log('\n✅ Database seeding completed successfully!');
     process.exit(0);
 
   } catch (error) {
-    // Log error and exit with failure code
     console.error('❌ Error seeding database:', error);
     process.exit(1);
   }
 };
 
-// ============================================
-// Execute Seeder
-// ============================================
-// Run the seed function when script is executed
-// ============================================
 seedDatabase();
