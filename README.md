@@ -48,68 +48,6 @@ A modern, full-stack e-commerce application built with Next.js, featuring authen
 - **File Upload:** Multer
 - **Validation:** express-validator
 
-## 📦 Installation
-
-### Prerequisites
-- Node.js 18+ installed
-- MongoDB Atlas account or local MongoDB instance
-- Google OAuth credentials (optional)
-
-### 1. Clone the Repository
-```bash
-git clone <your-repo-url>
-cd next
-```
-
-### 2. Install Dependencies
-
-**Frontend:**
-```bash
-npm install
-```
-
-**Backend:**
-```bash
-cd backend
-npm install
-cd ..
-```
-
-### 3. Environment Setup
-
-Create `.env.local` in the root directory:
-```env
-# NextAuth Configuration
-NEXTAUTH_URL=http://localhost:3000
-NEXTAUTH_SECRET=your-secret-key-here
-
-# Google OAuth (Optional)
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-
-# API Configuration
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-
-# Image Upload (Optional)
-NEXT_PUBLIC_IMGBB_API_KEY=your-imgbb-api-key
-```
-
-Create `backend/.env`:
-```env
-# Server Configuration
-PORT=5000
-NODE_ENV=development
-
-# MongoDB
-MONGODB_URI=your-mongodb-connection-string
-
-# JWT
-JWT_SECRET=your-jwt-secret-key
-JWT_EXPIRE=7d
-
-# CORS
-CORS_ORIGIN=http://localhost:3000
-```
 
 ### 4. Run the Application
 
@@ -173,20 +111,6 @@ next/
 - Smooth transitions between themes
 - Consistent color palette across the app
 
-## 🚀 Deployment
-
-### Frontend (Vercel)
-1. Push your code to GitHub
-2. Import project in Vercel
-3. Add environment variables
-4. Deploy
-
-### Backend (Railway/Render)
-1. Push backend code to GitHub
-2. Create new service on Railway/Render
-3. Add environment variables
-4. Deploy
-
 ## 📝 API Endpoints
 
 ### Authentication
@@ -201,14 +125,4 @@ next/
 - `PUT /api/products/:id` - Update product (auth required)
 - `DELETE /api/products/:id` - Delete product (auth required)
 
-## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📄 License
-
-This project is open source and available under the MIT License.
-
-## 👨‍💻 Author
-
-Built with ❤️ using Next.js and modern web technologies.
