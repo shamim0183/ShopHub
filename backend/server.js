@@ -41,10 +41,24 @@ connectDB();
 // ============================================
 
 // CORS (Cross-Origin Resource Sharing)
-// Allows Next.js frontend (running on port 3000) to make requests
-// to this backend (running on port 5000)
+// Allows Next.js frontend to make requests to this backend
+// Supports both development (localhost) and production URLs
+const allowedOrigins = [
+  'http://localhost:3000',  // Next.js dev server
+  process.env.FRONTEND_URL, // Production frontend URL
+].filter(Boolean); // Remove undefined values
+
 app.use(cors({
-  origin: 'http://localhost:3000',  // Next.js dev server
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,                 // Allow cookies
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

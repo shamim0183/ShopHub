@@ -6,7 +6,23 @@
 // Runs before page loads for protected paths
 // ============================================
 
-export { default } from 'next-auth/middleware';
+import { withAuth } from 'next-auth/middleware';
+
+// ============================================
+// Middleware Function
+// ============================================
+// Export the middleware function explicitly for Next.js 16
+// ============================================
+export default withAuth({
+  // Callback to check if user is authorized
+  callbacks: {
+    authorized: ({ token }) => !!token,
+  },
+  // Redirect to login page if not authorized
+  pages: {
+    signIn: '/login',
+  },
+});
 
 // ============================================
 // Protected Routes Configuration

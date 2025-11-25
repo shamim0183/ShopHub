@@ -1,0 +1,33 @@
+# ============================================
+# Render.com Configuration for Express.js Backend
+# ============================================
+# This file configures automatic deployment on Render.com
+# Place this file in the backend directory
+# ============================================
+
+services:
+  # Backend API Service
+  - type: web
+    name: shophub-backend
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    
+    # Environment Variables
+    # You'll need to set these in Render.com dashboard
+    envVars:
+      - key: NODE_ENV
+        value: production
+      
+      - key: MONGODB_URI
+        sync: false  # Set manually in Render dashboard
+      
+      - key: PORT
+        value: 5000
+      
+      - key: FRONTEND_URL
+        sync: false  # Set to your Vercel/Netlify URL
