@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/backend/node_modules
 /.pnp
 .pnp.*
 .yarn/*
@@ -19,6 +20,7 @@
 
 # production
 /build
+/backend/build
 
 # misc
 .DS_Store
@@ -30,8 +32,14 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (NEVER commit these)
+.env
+.env.*
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+backend/.env
 
 # vercel
 .vercel
@@ -39,3 +47,27 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Logs
+logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+.cache/

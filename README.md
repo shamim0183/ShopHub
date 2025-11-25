@@ -1,36 +1,214 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# ShopHub - Next.js E-commerce Application
 
-## Getting Started
+A modern, full-stack e-commerce application built with Next.js, featuring authentication, product management, and a beautiful UI powered by DaisyUI.
 
-First, run the development server:
+## 🚀 Features
 
+- **Authentication**
+  - Google OAuth integration
+  - Email/Password authentication with NextAuth.js
+  - Protected routes and session management
+
+- **Product Management**
+  - Browse products with search and category filters
+  - Add, edit, and delete products
+  - Product details with image gallery
+  - Stock management
+
+- **Modern UI/UX**
+  - Responsive design with Tailwind CSS
+  - DaisyUI components for consistent theming
+  - Light/Dark mode toggle
+  - Smooth animations and transitions
+  - Mobile-friendly interface
+
+- **Backend API**
+  - Express.js REST API
+  - MongoDB database with Mongoose
+  - JWT authentication
+  - Image upload support
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **Framework:** Next.js 15
+- **Styling:** Tailwind CSS, DaisyUI
+- **Authentication:** NextAuth.js
+- **State Management:** React Hooks
+- **HTTP Client:** Axios
+- **Icons:** React Icons
+- **Carousel:** Swiper.js
+- **Alerts:** SweetAlert2
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB with Mongoose
+- **Authentication:** JWT, bcrypt
+- **File Upload:** Multer
+- **Validation:** express-validator
+
+## 📦 Installation
+
+### Prerequisites
+- Node.js 18+ installed
+- MongoDB Atlas account or local MongoDB instance
+- Google OAuth credentials (optional)
+
+### 1. Clone the Repository
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone <your-repo-url>
+cd next
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Install Dependencies
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+**Frontend:**
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Backend:**
+```bash
+cd backend
+npm install
+cd ..
+```
 
-## Learn More
+### 3. Environment Setup
 
-To learn more about Next.js, take a look at the following resources:
+Create `.env.local` in the root directory:
+```env
+# NextAuth Configuration
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your-secret-key-here
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Google OAuth (Optional)
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# API Configuration
+NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
-## Deploy on Vercel
+# Image Upload (Optional)
+NEXT_PUBLIC_IMGBB_API_KEY=your-imgbb-api-key
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Create `backend/.env`:
+```env
+# Server Configuration
+PORT=5000
+NODE_ENV=development
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# MongoDB
+MONGODB_URI=your-mongodb-connection-string
+
+# JWT
+JWT_SECRET=your-jwt-secret-key
+JWT_EXPIRE=7d
+
+# CORS
+CORS_ORIGIN=http://localhost:3000
+```
+
+### 4. Run the Application
+
+**Start Backend Server:**
+```bash
+cd backend
+npm start
+```
+
+**Start Frontend (in a new terminal):**
+```bash
+npm run dev
+```
+
+The application will be available at:
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:5000
+
+## 📁 Project Structure
+
+```
+next/
+├── app/                    # Next.js app directory
+│   ├── api/               # API routes
+│   ├── products/          # Product pages
+│   ├── add-product/       # Add product page
+│   ├── manage-products/   # Manage products page
+│   ├── login/             # Login page
+│   ├── register/          # Registration page
+│   └── layout.js          # Root layout
+├── components/            # React components
+│   ├── layout/           # Layout components (Navbar, Footer)
+│   └── products/         # Product components
+├── backend/              # Express.js backend
+│   ├── config/          # Configuration files
+│   ├── controllers/     # Route controllers
+│   ├── middleware/      # Custom middleware
+│   ├── models/          # Mongoose models
+│   ├── routes/          # API routes
+│   └── server.js        # Entry point
+└── public/              # Static assets
+```
+
+## 🔑 Key Features Explained
+
+### Authentication Flow
+1. Users can register with email/password or Google OAuth
+2. NextAuth.js handles session management
+3. Protected routes redirect unauthenticated users to login
+4. JWT tokens secure backend API requests
+
+### Product Management
+1. Authenticated users can add products with images
+2. Products support categories, pricing, and stock levels
+3. Search and filter functionality for easy browsing
+4. Admin users can edit and delete products
+
+### Theme System
+- DaisyUI provides light and dark themes
+- Theme preference saved in localStorage
+- Smooth transitions between themes
+- Consistent color palette across the app
+
+## 🚀 Deployment
+
+### Frontend (Vercel)
+1. Push your code to GitHub
+2. Import project in Vercel
+3. Add environment variables
+4. Deploy
+
+### Backend (Railway/Render)
+1. Push backend code to GitHub
+2. Create new service on Railway/Render
+3. Add environment variables
+4. Deploy
+
+## 📝 API Endpoints
+
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user
+
+### Products
+- `GET /api/products` - Get all products
+- `GET /api/products/:id` - Get product by ID
+- `POST /api/products` - Create product (auth required)
+- `PUT /api/products/:id` - Update product (auth required)
+- `DELETE /api/products/:id` - Delete product (auth required)
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## 📄 License
+
+This project is open source and available under the MIT License.
+
+## 👨‍💻 Author
+
+Built with ❤️ using Next.js and modern web technologies.
