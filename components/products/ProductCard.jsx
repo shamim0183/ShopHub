@@ -13,11 +13,11 @@ export default function ProductCard({ product }) {
   const stockStatus = getStockStatus();
 
   return (
-    <div className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden border border-base-300">
+    <div className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 relative overflow-hidden border border-base-300 rounded-2xl">
       
       {/* Image */}
       <Link href={`/products/${_id}`} className="relative">
-        <figure className="h-64 bg-base-200 overflow-hidden">
+        <figure className="h-64 bg-base-200 overflow-hidden rounded-t-2xl">
           <img 
             src={image || 'https://via.placeholder.com/400'} 
             alt={name} 

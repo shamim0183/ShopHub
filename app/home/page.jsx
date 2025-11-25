@@ -111,9 +111,9 @@ export default function HomePage() {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {featuredProducts.map((product) => (
-                  <div key={product._id} className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300">
+                  <div key={product._id} className="card card-compact bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-base-300 rounded-2xl">
                     <Link href={`/products/${product._id}`}>
-                      <figure className="h-56 bg-base-200 overflow-hidden">
+                      <figure className="h-56 bg-base-200 overflow-hidden rounded-t-2xl">
                         <img
                           src={product.imageUrl || product.image || "https://via.placeholder.com/400"}
                           alt={product.title || product.name}
