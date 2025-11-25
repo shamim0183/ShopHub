@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense, useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff, FiLock, FiMail } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 
 function LoginForm() {
   const router = useRouter();
@@ -37,12 +38,33 @@ function LoginForm() {
 
       if (result?.error) {
         setError('Invalid email or password');
+        Swal.fire({
+          icon: 'error',
+          title: 'Login Failed',
+          text: 'Invalid email or password',
+          confirmButtonColor: '#ee0979',
+        });
       } else {
-        router.push(callbackUrl);
-        router.refresh();
+        Swal.fire({
+          icon: 'success',
+          title: 'Login Successful!',
+          text: 'Welcome back to ShopHub',
+          timer: 1500,
+          showConfirmButton: false,
+        });
+        setTimeout(() => {
+          router.push(callbackUrl);
+          router.refresh();
+        }, 1500);
       }
     } catch (err) {
       setError('An error occurred during login');
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'An error occurred during login',
+        confirmButtonColor: '#ee0979',
+      });
     } finally {
       setLoading(false);
     }
@@ -77,7 +99,7 @@ function LoginForm() {
             type="button"
             onClick={handleGoogleLogin}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 disabled:opacity-50"
+            className="cursor-pointer w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 disabled:opacity-50"
           >
             <FcGoogle size={24} />
             <span>Continue with Google</span>
@@ -132,7 +154,7 @@ function LoginForm() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
@@ -143,7 +165,7 @@ function LoginForm() {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full py-3 px-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-bold rounded-lg transition-all duration-200 ${
+              className={`cursor-pointer w-full py-3 px-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-bold rounded-lg transition-all duration-200 ${
                 loading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg hover:scale-[1.02]'
               }`}
             >

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FiCheck, FiEye, FiEyeOff, FiImage, FiLock, FiMail, FiUpload, FiUser, FiX } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -119,7 +120,6 @@ export default function RegisterPage() {
     try {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
       
-      // Save to MongoDB
       const response = await axios.post(`${apiUrl}/auth/register`, {
         name: formData.name,
         email: formData.email,
@@ -127,7 +127,6 @@ export default function RegisterPage() {
         photoURL: formData.photoURL || ''
       });
 
-      // Also save to localStorage for NextAuth compatibility
       const userData = {
         name: formData.name,
         email: formData.email,
@@ -136,17 +135,38 @@ export default function RegisterPage() {
       localStorage.setItem('registeredUser', JSON.stringify(userData));
       
       setSuccess(true);
+      
+      Swal.fire({
+        icon: 'success',
+        title: 'Account Created!',
+        text: 'Welcome to ShopHub! Redirecting to home...',
+        timer: 2000,
+        showConfirmButton: false,
+      });
+      
       setTimeout(() => router.push('/'), 2000);
     } catch (err) {
       console.error('Registration error:', err);
       
+      let errorMessage = 'Registration failed. Please try again.';
+      
       if (err.response?.data?.field === 'email') {
-        setErrors({ email: err.response.data.message });
+        errorMessage = err.response.data.message;
+        setErrors({ email: errorMessage });
       } else if (err.response?.data?.errors) {
-        setErrors({ general: err.response.data.errors.join(', ') });
+        errorMessage = err.response.data.errors.join(', ');
+        setErrors({ general: errorMessage });
       } else {
-        setErrors({ general: err.response?.data?.message || 'Registration failed. Please try again.' });
+        errorMessage = err.response?.data?.message || errorMessage;
+        setErrors({ general: errorMessage });
       }
+      
+      Swal.fire({
+        icon: 'error',
+        title: 'Registration Failed',
+        text: errorMessage,
+        confirmButtonColor: '#ee0979',
+      });
     } finally {
       setLoading(false);
     }
@@ -189,7 +209,7 @@ export default function RegisterPage() {
           <button
             type="button"
             onClick={handleGoogleSignIn}
-            className="w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 mb-6"
+            className="cursor-pointer w-full flex items-center justify-center gap-3 px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-lg font-semibold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-gray-600 transition-all duration-200 mb-6"
           >
             <FcGoogle size={24} />
             <span>Continue with Google</span>
@@ -298,7 +318,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   {showPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
@@ -340,7 +360,7 @@ export default function RegisterPage() {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                  className="cursor-pointer absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
                 >
                   {showConfirmPassword ? <FiEyeOff /> : <FiEye />}
                 </button>
@@ -352,7 +372,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading || success}
-              className={`w-full py-3 px-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-bold rounded-lg transition-all duration-200 ${
+              className={`cursor-pointer w-full py-3 px-4 bg-gradient-to-r from-[#ee0979] to-[#ff6a00] text-white font-bold rounded-lg transition-all duration-200 ${
                 loading || success
                   ? 'opacity-50 cursor-not-allowed'
                   : 'hover:shadow-lg hover:scale-[1.02]'
