@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+// ইউজার স্কিমা - ইউজারের তথ্য এবং ভ্যালিডেশন নির্ধারণ করে
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -43,11 +44,11 @@ const userSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true
+    timestamps: true // স্বয়ংক্রিয়ভাবে createdAt এবং updatedAt যোগ করে
   }
 );
 
-// Hash password before saving
+// সেভ করার আগে পাসওয়ার্ড হ্যাশ করা
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) {
     return next();
@@ -62,12 +63,12 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Method to compare passwords
+// পাসওয়ার্ড তুলনা করার মেথড
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Don't return password in JSON responses
+// JSON রেসপন্সে পাসওয়ার্ড রিটার্ন করবে না
 userSchema.methods.toJSON = function() {
   const user = this.toObject();
   delete user.password;
